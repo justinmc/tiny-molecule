@@ -1,0 +1,26 @@
+{
+  "name": "tiny-molecule",
+  "version": "0.0.1",
+  "description": "A small, developer-friendly 3D molecule viewer for the modern web",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/justinmc/tiny-molecule.git"
+  },
+  "keywords": [
+    "molecule",
+    "3d",
+    "visualizer",
+    "viewer",
+    "pdb"
+  ],
+  "author": "Justin McCandless",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/justinmc/tiny-molecule/issues"
+  },
+  "homepage": "https://github.com/justinmc/tiny-molecule#readme"
+}
