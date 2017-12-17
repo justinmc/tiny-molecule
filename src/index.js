@@ -3,7 +3,7 @@ import parsePdb from 'parse-pdb';
 
 window.THREE = THREE;
 
-import OrbitControls from 'imports-loader?THREE=THREE!exports-loader?THREE.OrbitControls!three/examples/js/controls/OrbitControls';
+import OrbitControls from 'three/examples/js/controls/OrbitControls';
 
 THREE.OrbitControls = OrbitControls;
 
@@ -57,26 +57,26 @@ function init() {
   camera.position.set(10, 5, 15);
   // CONTROLS
   cameraControls = new THREE.OrbitControls(camera, renderer.domElement);
-  cameraControls.target.set(0,0,0);
+  cameraControls.target.set(0, 0, 0);
 }
 
 function addToDOM(element) {
   const canvas = element.getElementsByTagName('canvas');
-  if (canvas.length>0) {
+  if (canvas.length > 0) {
     element.removeChild(canvas[0]);
   }
   element.appendChild(renderer.domElement);
-}
-
-function animate() {
-  window.requestAnimationFrame(animate);
-  render();
 }
 
 function render() {
   const delta = clock.getDelta();
   cameraControls.update(delta);
   renderer.render(scene, camera);
+}
+
+function animate() {
+  window.requestAnimationFrame(animate);
+  render();
 }
 
 /**
@@ -90,9 +90,9 @@ export default function tinyMolecule(element, pdbString) {
     fillScene(pdbString);
     addToDOM(element);
     animate();
-  } catch(e) {
+  } catch (e) {
     const errorReport = 'Your program encountered an unrecoverable error, can not draw on canvas. Error was:';
-    element.append(errorReport+e);
+    element.append(`${errorReport}${e}`);
     console.error(e);
   }
 }

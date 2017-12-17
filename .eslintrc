@@ -1,0 +1,10 @@
+{
+  "extends": "airbnb",
+  "rules": {
+    "import/first": 1,
+    "import/no-extraneous-dependencies": 1
+  },
+  "globals": {
+    "window": true
+  }
+}

@@ -1,4 +1,4 @@
+import pdbString from './3aid.pdb';
 import tinyMolecule from '../src/index';
-import pdbString from 'raw-loader!./3aid.pdb';
 
-tinyMolecule(document.body, pdbString);
+tinyMolecule(window.document.body, pdbString);
