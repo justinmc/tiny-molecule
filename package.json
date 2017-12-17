@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha",
     "example": "webpack-dev-server --config webpack.example.config.js",
-    "build": "webpack",
+    "build": "webpack -p",
     "lint": "eslint src/ example/"
   },
   "repository": {
@@ -31,6 +31,9 @@
     "three": "^0.88.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.0.0-beta.35",
+    "@babel/preset-env": "^7.0.0-beta.35",
+    "babel-loader": "^8.0.0-beta.0",
     "eslint": "^4.13.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.8.0",
