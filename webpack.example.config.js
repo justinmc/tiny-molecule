@@ -12,10 +12,6 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.pdb/,
-        use: 'raw-loader',
-      },
-      {
         test: require.resolve('three/examples/js/controls/OrbitControls'),
         use: [
           'imports-loader?THREE=THREE',
