@@ -20,10 +20,41 @@ function fillScene(pdbString) {
 
   const { atoms } = parsePdb(pdbString);
 
+  const boundingBoxStart = new THREE.Vector3();
+  const boundingBoxEnd = new THREE.Vector3();
   atoms.forEach((atom) => {
     const vertex = new THREE.Vector3(atom.x, atom.y, atom.z);
+
+    // Adjust the bounding box if needed for each new particle
+    if (vertex.x > boundingBoxEnd.x) {
+      boundingBoxEnd.x = vertex.x;
+    }
+    if (vertex.x < boundingBoxStart.x) {
+      boundingBoxStart.x = vertex.x;
+    }
+    if (vertex.y > boundingBoxEnd.y) {
+      boundingBoxEnd.y = vertex.y;
+    }
+    if (vertex.y < boundingBoxStart.y) {
+      boundingBoxStart.y = vertex.y;
+    }
+    if (vertex.z > boundingBoxEnd.z) {
+      boundingBoxEnd.z = vertex.z;
+    }
+    if (vertex.z < boundingBoxStart.z) {
+      boundingBoxStart.z = vertex.z;
+    }
+
     geometry.vertices.push(vertex);
   });
+
+  // Set the camera's target to the midpoint of the structure
+  const midpoint = new THREE.Vector3(
+    boundingBoxStart.x + ((boundingBoxEnd.x - boundingBoxStart.x) / 2),
+    boundingBoxStart.y + ((boundingBoxEnd.y - boundingBoxStart.y) / 2),
+    boundingBoxStart.z + ((boundingBoxEnd.z - boundingBoxStart.z) / 2),
+  );
+  cameraControls.target.set(midpoint.x, midpoint.y, midpoint.z);
 
   const disk = new THREE.TextureLoader().load('./src/images/sphere.png');
   const material = new THREE.PointsMaterial({
