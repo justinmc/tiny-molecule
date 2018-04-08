@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/justinmc/tiny-molecule#readme",
   "dependencies": {
+    "parse-mmcif": "file:../parse-mmcif",
     "parse-pdb": "0.0.1",
     "three": "^0.88.0"
   },

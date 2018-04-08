@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import parsePdb from 'parse-pdb';
+import parseMmcif from 'parse-mmcif';
 
 window.THREE = THREE;
 
@@ -8,6 +9,10 @@ import OrbitControls from 'three/examples/js/controls/OrbitControls';
 THREE.OrbitControls = OrbitControls;
 
 const FOV = 55;
+const TYPES = {
+  PDB: 'PDB',
+  MMCIF: 'MMCIF',
+};
 
 let camera;
 let scene;
@@ -17,14 +22,22 @@ let cameraControls;
 const clock = new THREE.Clock();
 
 /**
- * @param {String} dataString the pdb data to display
+ * @param {String} dataString the pdb or mmcif data to display
  * @param {Object} options
+ * @param {PDB|MMCIF} options.type
  */
-function fillScene(dataString) {
+function fillScene(dataString, options) {
   scene = new THREE.Scene();
   const geometry = new THREE.Geometry();
 
-  const { atoms } = parsePdb(dataString);
+  let atoms;
+  if (options.type === TYPES.PDB) {
+    ({ atoms } = parsePdb(dataString));
+  } else if (options.type === TYPES.MMCIF) {
+    ({ atoms } = parseMmcif(dataString));
+  } else {
+    throw new Error('Please pass a valid options.type; either "PDB" or "MMCIF"');
+  }
 
   atoms.forEach((atom) => {
     const vertex = new THREE.Vector3(atom.x, atom.y, atom.z);
@@ -163,11 +176,12 @@ function animate() {
  * @param {DOM Element} element
  * @param {String} dataString - the data for the molecule to display
  * @param {Object} options
+ * @param {PDB|MMCIF} options.type
  */
-export default function tinyMolecule(element, dataString) {
+export default function tinyMolecule(element, dataString, options) {
   try {
     init();
-    fillScene(dataString);
+    fillScene(dataString, options);
     addToDOM(element);
     animate();
   } catch (e) {
