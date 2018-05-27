@@ -7,6 +7,7 @@
     "test": "mocha",
     "example": "webpack-dev-server --config webpack.example.config.js",
     "build": "webpack -p",
+    "build-example": "webpack --config webpack.example.config.js",
     "lint": "eslint src/ example/"
   },
   "repository": {
