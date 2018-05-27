@@ -77,10 +77,6 @@ function fillScene(dataString, options) {
     boundingBox.min.z + ((boundingBox.max.z - boundingBox.min.z) / 2),
   );
 
-  // Draw bounding box
-  const boundingBoxHelper = new THREE.Box3Helper(geometry.boundingBox, 0xffff00);
-  scene.add(boundingBoxHelper);
-
   const disk = new THREE.TextureLoader().load('./src/images/sphere.png');
   const material = new THREE.PointsMaterial({
     alphaTest: 0.5,
@@ -94,39 +90,9 @@ function fillScene(dataString, options) {
   // Set the camera's target to the midpoint of the structure
   cameraControls.target = midpoint;
 
-  // TODO remove me, center sphere
-  const bodyMaterial = new THREE.MeshPhongMaterial();
-  bodyMaterial.color.setRGB(31 / 255, 86 / 255, 169 / 255);
-  const sphere = new THREE.Mesh(
-    new THREE.SphereGeometry(2, 32, 16), bodyMaterial,
-  );
-  sphere.position.x = midpoint.x;
-  sphere.position.y = midpoint.y;
-  sphere.position.z = midpoint.z;
-  scene.add(sphere);
-
   const particles = new THREE.Points(geometry, material);
   particles.sortParticles = true;
   scene.add(particles);
-
-  /*
-  // TODO Calculate camera position in order to frame molecule in view
-  // TODO verify by using the calculated dist and comparing to cameraDistanceFromMidpoint
-  const boundingBoxSizeY = boundingBox.max.y - boundingBox.min.y;
-  // height = 2 * tan(FOV/2) * distance
-  // tan(fov/2) = (boundingBoxSizeY / 2) / a
-  const newCameraDistanceFromMidpoint = Math.abs((boundingBoxSizeY / 2) / Math.tan(FOV / 2));
-  console.log('zomg camera should be this far away', newCameraDistanceFromMidpoint);
-  const vectorMidpointToCamera = camera.position.clone().sub(midpoint);
-  const cameraDistanceFromMidpoint = vectorMidpointToCamera.length();
-  const distanceOldToNewCameraPosition = newCameraDistanceFromMidpoint - cameraDistanceFromMidpoint;
-  const newCameraPosition = camera.position.clone().add(
-    vectorMidpointToCamera.normalize().multiplyScalar(distanceOldToNewCameraPosition),
-  );
-  camera.position.set(newCameraPosition.x, newCameraPosition.y, newCameraPosition.z);
-  const dist = newCameraPosition.clone().sub(midpoint).length();
-  console.log('zomg camerapos', newCameraPosition, midpoint, dist);
-  */
 
   camera.position.set(0, 0, boundingSphereRadius * 1.5);
 }
