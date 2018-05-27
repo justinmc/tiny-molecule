@@ -1,6 +1,6 @@
 {
   "name": "tiny-molecule",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A small, developer-friendly 3D molecule viewer for the modern web",
   "main": "dist/bundle.js",
   "scripts": {
