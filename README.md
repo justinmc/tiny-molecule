@@ -1,5 +1,7 @@
 # tiny-molecule
-A small, developer-friendly 3D molecule viewer for the modern web
+A small, developer-friendly 3D molecule viewer for the modern web.
+
+See a live exmaple at [https://justinmc.github.io/tiny-molecule/](https://justinmc.github.io/tiny-molecule/).
 
 ![demo](./demo.gif)
 ![demo for spheres](./demo_sphere.gif)
