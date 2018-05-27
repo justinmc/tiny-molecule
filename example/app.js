@@ -7,16 +7,32 @@ const FILE_EXTENSIONS = {
   MMCIF: 'cif',
 };
 
-// Create type select
-const option0 = window.document.createElement('option');
-option0.value = 'PDB';
-option0.text = 'PDB';
-const option1 = window.document.createElement('option');
-option1.value = 'MMCIF';
-option1.text = 'MMCIF';
-const select = window.document.createElement('select');
-select.append(option0);
-select.append(option1);
+function createSelect(...optionStrings) {
+  const select = window.document.createElement('select');
+
+  optionStrings.forEach((optionString) => {
+    const option = window.document.createElement('option');
+    option.value = optionString;
+    option.text = optionString;
+    select.append(option);
+  });
+
+  return select;
+}
+
+function fetchPdb(pdbId) {
+  const type = typeSelect.value;
+  window.fetch(`https://files.rcsb.org/download/${pdbId}.${FILE_EXTENSIONS[type]}`)
+    .then(response => response.text())
+    .then((pdbString) => {
+      window.document.body.innerHtml = '';
+      tinyMolecule(window.document.body, pdbString, {
+        type,
+        representation: representationSelect.value,
+      });
+    })
+    .catch(console.error.bind(console));
+}
 
 // Create pdbid input
 const input = window.document.createElement('input');
@@ -26,19 +42,17 @@ input.addEventListener('keydown', (event) => {
     fetchPdb(event.target.value.toUpperCase());
   }
 });
-
 window.document.body.append(input);
-window.document.body.append(select);
 
-function fetchPdb(pdbId) {
-  const type = select.value;
-  window.fetch(`https://files.rcsb.org/download/${pdbId}.${FILE_EXTENSIONS[type]}`)
-    .then(response => response.text())
-    .then((pdbString) => {
-      window.document.body.innerHtml = '';
-      tinyMolecule(window.document.body, pdbString, { type });
-    })
-    .catch(console.error.bind(console));
-}
+// Create type select
+const typeSelect = createSelect('PDB', 'MMCIF');
+window.document.body.append(typeSelect);
+
+// Create representation select
+const representationSelect = createSelect('sphere', 'particle');
+window.document.body.append(representationSelect);
+representationSelect.addEventListener('change', () => {
+  fetchPdb(input.value.toUpperCase());
+});
 
 fetchPdb(INITIAL_PDB_ID);
